@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+'''
+Created on 18-Jul-2014
+
+@author: Karan S. Sisodia
+'''
+import sys
+import getopt
+import Markdowngen.markdown_gen as mg
+
+source_dir = '/'
+destination_dir = '/html'
+ 
+###############################
+# o == option
+# a == argument passed to the o
+###############################
+# Cache an error with try..except 
+# Note: options is the string of option letters that the script wants to recognize, with 
+# options that require an argument followed by a colon (':') i.e. -i fileName
+#
+try:
+    myopts, args = getopt.getopt(sys.argv[1:], "h:i:o:", ["help", "output="])
+except getopt.GetoptError as e:
+    print (str(e))
+    print("\nUsage: %s -i <source directory> -o <output directory>\n" % sys.argv[0])
+    sys.exit(2)
+
+if myopts:
+    
+    for o, a in myopts:
+        if o in ('-i', '--input'):
+            source_dir=a
+        elif o in ('-o', '--output'):
+            destination_dir = a + destination_dir
+        elif o in ("-h", "--help"):
+            print("\nUsage: %s -i <source directory> -o <output directory>\n" % sys.argv[0])
+            sys.exit()
+
+app = mg.MarkdownGen(source_dir, destination_dir)
